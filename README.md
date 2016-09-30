@@ -94,20 +94,6 @@ Jcollectd XML config for this appender:
 </jcollectd-config>
 ```
 
-# Future plans
-
-Some ideas for future improvements:
-
-* add sampling or a per-minute quota of events
-* got ideas? let me know
-
-
-# Contributors
-
-* [Renzo Toma](https://github.com/rtoma/)
-* [Ernest Micklei](https://github.com/emicklei/)
-* [Ryan Tenney](https://github.com/ryantenney/)
-
 
 # Contribution
 
