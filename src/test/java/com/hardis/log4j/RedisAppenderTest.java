@@ -20,7 +20,7 @@
 * @author Landro Silva
 * @copyright 2012 Pavlo Baron */
 
-package com.ryantenney.log4j;
+package com.hardis.log4j;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

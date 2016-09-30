@@ -15,7 +15,7 @@
 *
 **/
 
-package com.bol.log4j;
+package com.hardis.log4j;
 
 import java.util.Arrays;
 import java.util.Queue;

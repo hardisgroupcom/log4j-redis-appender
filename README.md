@@ -1,3 +1,10 @@
+# log4j-redis-appender Hardis
+
+This project is a clone of https://github.com/bolcom/log4j-redis-appender with the following changes: 
+* name of packages
+* Remove of maven-assembly-plugin in the build section of pom.xml
+
+
 # log4j-redis-appender
 
 Log4j appender for pushing log4j events to a Redis list, for easy integration with Logstash.

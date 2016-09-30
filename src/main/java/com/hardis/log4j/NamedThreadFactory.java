@@ -1,4 +1,4 @@
-package com.bol.log4j;
+package com.hardis.log4j;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
