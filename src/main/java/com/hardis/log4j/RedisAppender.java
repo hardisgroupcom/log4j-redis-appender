@@ -55,7 +55,8 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
     private boolean purgeOnFailure = true;
     private long waitTerminate = 1000;
     private boolean registerMBean = true;
-
+    private boolean useSSL = false;
+    
     // runtime stuff
     private Queue<LoggingEvent> events;
     private int messageIndex = 0;
@@ -109,7 +110,7 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
         if (jedis != null && jedis.isConnected()) {
             jedis.disconnect();
         }
-        jedis = new Jedis(host, port);
+        jedis = new Jedis(host, port, useSSL);
     }
 
     @Override
@@ -316,7 +317,6 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
     public void setWaitTerminate(long waitTerminate) {
         this.waitTerminate = waitTerminate;
     }
-
     public boolean requiresLayout() {
         return true;
     }
@@ -345,6 +345,10 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
 
         LogLog.warn("INFO: Registered MBean " + name);
 
+    }
+
+    public void setUseSSL(boolean useSSL) {
+        this.useSSL = useSSL;
     }
 
 }

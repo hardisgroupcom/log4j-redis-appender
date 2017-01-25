@@ -1,8 +1,12 @@
-# log4j-redis-appender Hardis
+# log4j-redis-appender
 
-This project is a clone of https://github.com/bolcom/log4j-redis-appender with the following changes: 
-* name of packages
-* Remove of maven-assembly-plugin in the build section of pom.xml
+The code is based from [@bolcom](https://github.com/bolcom/log4j-redis-appender) 
+
+
+* Package renaming under com.hardis:
+* pom.xml update for single jar update
+
+
 
 
 # log4j-redis-appender
@@ -29,6 +33,7 @@ This appender pushes log4j events to a Redis list. Here is an example XML config
 ```
    <appender name="JSON_REDIS" class="com.hardis.log4j.FailoverRedisAppender">
       <param name="endpoints" value="server1:6379,server2:6379" />
+      <param name="useSSL" value="false" />
       <param name="alwaysBatch" value="false" />
       <param name="batchSize" value="50" />
       <param name="flushInterval" value="1000" />
@@ -46,6 +51,7 @@ Where:
 
 * **endpoints** (_optional_) comma separated list of Redis servers in format <host>:<port>. The list is shuffled at startup. When connecting or reconnecting the next server on the list is used.
 * **host** + **port** (_optional_, default: localhost:6379) Hostname/IP and port number of a single Redis server. Use this OR `endpoints` to configure the Redis server(s) used.
+* **useSSL**  (_optional_, default: false) true if ssl is required
 * **key** (_required_) Redis key of the list to `RPUSH` events to.
 * **password** (_optional_) Redis password, if required.
 * **alwaysBatch** (_optional_, default: true) whether to wait for a full batch. If true, will only send once there are `batchSize` events enqueued.
@@ -73,7 +79,7 @@ When the appender's MBean is registered (see `registerMBean` configuration) the 
 
 ## JCollectd configuration
 
-Use [Jcollectd](https://github.com/hardisgroupcom/jcollectd) in your JVM to periodically flush MBean metrics to [collectd](https://github.com/collectd/collectd) or [Diamond](https://github.com/BrightcoveOS/Diamond)'s [JCollectdCollector](https://github.com/BrightcoveOS/Diamond/wiki/collectors-JCollectdCollector).
+Use [Jcollectd](https://github.com/bolcom/jcollectd) in your JVM to periodically flush MBean metrics to [collectd](https://github.com/collectd/collectd) or [Diamond](https://github.com/BrightcoveOS/Diamond)'s [JCollectdCollector](https://github.com/BrightcoveOS/Diamond/wiki/collectors-JCollectdCollector).
 
 Jcollectd XML config for this appender:
 
@@ -93,6 +99,13 @@ Jcollectd XML config for this appender:
   </mbeans>
 </jcollectd-config>
 ```
+
+
+# Contributors
+
+* [Renzo Toma](https://github.com/rtoma/)
+* [Ernest Micklei](https://github.com/emicklei/)
+* [Ryan Tenney](https://github.com/ryantenney/)
 
 
 # Contribution
