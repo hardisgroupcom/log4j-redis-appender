@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,7 +23,7 @@ public class RedisAppenderTest {
 	private Jedis redis;
 	private static String key;	
 	
-	private static int nbThread = 1;
+	private static int nbThread = 2;
 	private static int nbLogs = 1000;
 	
 	public static class LogThread extends Thread {
@@ -32,15 +34,15 @@ public class RedisAppenderTest {
 		
 		public void run() {
 			try {
-				for (long i = 0; i < 1000; i++) {
-					log.trace("whatever " + i);
-					Thread.sleep(10);
+				for (long i = 0; i < nbLogs; i++) {					
+					log.debug("that's me " + i);
+					Thread.sleep(100);
 				}
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				log.debug(e);
+			}
 		}
 	}
-
-	private static final Logger log = Logger.getLogger("LogMainThread");
 	
 	@BeforeClass
 	public static void beforeClass() throws IOException{
@@ -96,16 +98,21 @@ public class RedisAppenderTest {
 	
 	@Test
 	public void test() throws Throwable {		
-		for (int i = 0; i < RedisAppenderTest.nbThread; i++) {
-			new RedisAppenderTest.LogThread().start();
-		}
-
-		for (long i = 0; i < RedisAppenderTest.nbLogs; i++) {
-			log.debug("that's me " + i);
-			Thread.sleep(100);
+		
+		List<Thread> threads = new ArrayList<Thread>();
+				
+		for (int i = 0; i < RedisAppenderTest.nbThread; i++) {			
+			LogThread lt = new RedisAppenderTest.LogThread();
+			threads.add(lt);
+			lt.start();
 		}
 		
-		// list length check
+		for(int i = 0; i < threads.size(); i++){			
+			threads.get(i).join();
+		}
+			  		
+		Thread.sleep(3000);
+		
 		long len = redis.llen(key);
 		assertEquals(RedisAppenderTest.nbThread*RedisAppenderTest.nbLogs, len);		
 	}
