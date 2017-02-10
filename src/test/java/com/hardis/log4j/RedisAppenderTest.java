@@ -105,6 +105,8 @@ public class RedisAppenderTest {
 			Thread.sleep(100);
 		}
 		
+		Thread.sleep(3000);
+		
 		// list length check
 		long len = redis.llen(key);
 		assertEquals(RedisAppenderTest.nbThread*RedisAppenderTest.nbLogs, len);		
