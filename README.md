@@ -8,7 +8,6 @@ The code is based from [@bolcom](https://github.com/bolcom/log4j-redis-appender)
 
 
 
-
 # log4j-redis-appender
 
 Log4j appender for pushing log4j events to a Redis list, for easy integration with Logstash.
@@ -41,7 +40,7 @@ This appender pushes log4j events to a Redis list. Here is an example XML config
       <param name="registerMBean" value="true" />
       <param name="key" value="logstash.log4j" />
       <param name="Threshold" value="DEBUG"/>
-      <layout class="net.logstash.log4j.JSONEventLayout">
+      <layout class="net.logstash.log4j.JSONEventLayoutV1">
          <param name="userfields" value="application:xyz,role:xyz-app"/>
       </layout>
    </appender>
