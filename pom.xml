@@ -4,7 +4,7 @@
 
 	<groupId>com.hardis.log4j</groupId>
 	<artifactId>log4j-redis-appender</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<name>Log4j Redis Appender</name>
 	<description>Log4j appender for sending log4j events to a Redis server</description>
 	<url>https://github.com/hardisgroupcom/log4j-redis-appender</url>
