@@ -39,6 +39,7 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
     private long waitTerminate = 1000;
     private boolean registerMBean = true;
     private boolean useSSL = false;
+    private boolean displayOnlyFirstConnectionError = true;
     
     // runtime stuff
     private Queue<LoggingEvent> events;
@@ -47,6 +48,7 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
     private Jedis jedis;
     private ScheduledExecutorService executor;
     private ScheduledFuture<?> task;
+    private boolean previousConnectionFailed = false;
 
     // metrics
     private int eventCounter = 0;
@@ -179,10 +181,20 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
                 // make sure we got a live connection
                 jedis.ping();
             }
+            if (displayOnlyFirstConnectionError && previousConnectionFailed) {
+                // Display info trace only if the previous was in error
+                LogLog.warn("Connection restored to Redis at " + getRedisAddress());
+            }
+            previousConnectionFailed=false;
             return true;
         } catch (Exception e) {
             connectFailures++;
-            LogLog.error("Error connecting to Redis at " + getRedisAddress() + ": " + e.getMessage());
+
+            if ((displayOnlyFirstConnectionError && ! previousConnectionFailed) || (! displayOnlyFirstConnectionError)) {
+                // Display error trace only if the previous was not in error
+                LogLog.error("Error connecting to Redis at " + getRedisAddress() + ": " + e.getMessage());
+            }
+            previousConnectionFailed=true;
             return false;
         }
     }
@@ -275,6 +287,10 @@ public class RedisAppender extends AppenderSkeleton implements Runnable, RedisAp
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public void setDisplayOnlyFirstConnectionError(boolean displayOnlyFirstConnectionError) {
+        this.displayOnlyFirstConnectionError = displayOnlyFirstConnectionError;
     }
 
     public void setQueueSize(int queueSize) {

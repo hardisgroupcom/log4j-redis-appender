@@ -40,6 +40,7 @@ This appender pushes log4j events to a Redis list. Here is an example XML config
       <param name="registerMBean" value="true" />
       <param name="key" value="logstash.log4j" />
       <param name="Threshold" value="DEBUG"/>
+      <param name="displayOnlyFirstConnectionError" value="true"/>
       <layout class="net.logstash.log4j.JSONEventLayoutV1">
          <param name="userfields" value="application:xyz,role:xyz-app"/>
       </layout>
@@ -59,6 +60,7 @@ Where:
 * **queueSize** (_optional_, default: 5000) the maximum number of events the appender holds in memory, awaiting flush. If flushing is not possible, or is too slow the queue will slowly fill up. When the queue is full, new events will be dropped to protect the JVM.
 * **purgeOnFailure** (_optional_, default: true) whether to purge/drop events if Redis responds to a `RPUSH` with an OOM error. If 'false' the appender will attempt to send the events to Redis. If that keeps failing the queue will slowly fill up and new events will be dropped.
 * **registerMBean** (_optional_, default: true) whether to expose the appender's metrics as MBean.
+* **displayOnlyFirstConnectionError** (_optional_, default: true) whether to display error only at the first connection.
 
 
 ## Metrics
